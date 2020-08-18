@@ -11,7 +11,7 @@ const fetchData = (url) => {
 
 class Api {
     constructor(){
-        console.warn(Config.host)
+        console.info("db-host:",Config.host)
     }
     
     getCities(){
@@ -20,7 +20,7 @@ class Api {
             console.log("getCities",data);
         })
         .catch((error) => {
-            console.info("getCities",'There has been a problem with your fetch operation: ', error)
+            console.warn("getCities",'There has been a problem with your fetch operation: ', error.message)
         });
     }
 

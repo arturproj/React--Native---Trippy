@@ -38,8 +38,8 @@ export default class Card extends React.Component{
                     style={{ 
                         height: this.state.imageHeight,
                         width: this.state.imageWidth, 
-                        borderTopLeftRadius: 12, 
-                        borderTopRightRadius: 12 
+                        borderTopLeftRadius: 10, 
+                        borderTopRightRadius: 10 
                     }}
                 />
                 <Text style={styles.title}>{this.props.city.name}</Text>

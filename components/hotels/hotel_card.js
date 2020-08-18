@@ -12,7 +12,7 @@ export default class Card extends React.Component{
     const dimensions = Dimensions.get('window');
     this.state = {
       imageHeight : Math.round(dimensions.width * 9 / 16),
-      imageWidth : dimensions.width - 30,
+      imageWidth : dimensions.width - 34,
     };
   }
 
@@ -22,7 +22,12 @@ export default class Card extends React.Component{
         <View style={styles.container}>
             <Image
                 source={{uri: 'https://i.ytimg.com/vi/C3jPg75xxvk/maxresdefault.jpg'}}
-                style={{ height: this.state.imageHeight, width: this.state.imageWidth }}
+                style={{ 
+                  height: this.state.imageHeight,
+                  width: this.state.imageWidth, 
+                  borderTopLeftRadius: 10, 
+                  borderTopRightRadius: 10 
+              }}
             />
             <Text style={styles.title}>Title</Text>
             <View style={styles.footer}>
@@ -41,8 +46,9 @@ const styles = StyleSheet.create({
     margin : 15,
     borderRadius : 12,
     backgroundColor : theme.COLORS.WHITE,
-    height : 350,
     textAlign : "center",
+    borderColor : theme.COLORS.FACEBOOK,
+    borderWidth : 2
   },
   footer : {
     flexDirection : 'row',
