@@ -22,6 +22,7 @@ const COLORS = {
   };
   
   const SIZES = {
+    NAV: 25,
     BASE: 16,
     FONT: 16,
     OPACITY: 0.8,
