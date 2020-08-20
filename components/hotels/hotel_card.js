@@ -1,45 +1,44 @@
-import React from 'react';
-import { View, StyleSheet, Dimensions, Image, Text } from 'react-native'
-
+import React, { useState } from 'react';
+import { 
+    View, 
+    StyleSheet,
+    Dimensions, 
+    Image, 
+    Text, 
+    TouchableOpacity
+} from 'react-native'
 
 import theme from '../theme'
 
-export default class Card extends React.Component{
+import Config from './../../Config'
 
-  constructor(state){
-    super(state)
+const Card = ({ hotel, action }) => {
 
-    const dimensions = Dimensions.get('window');
-    this.state = {
-      imageHeight : Math.round(dimensions.width * 9 / 16),
-      imageWidth : dimensions.width - 34,
-    };
-  }
-
-  render(){
+  const dimensions = Dimensions.get('window');
+  const [imageWidth,setImageWidth] = useState( dimensions.width - 34 );
+  const [imageHeight,setImageHeight] = useState( Math.round(dimensions.width * 9 / 16) );
 
   return (
-        <View style={styles.container}>
-            <Image
-                source={{uri: 'https://i.ytimg.com/vi/C3jPg75xxvk/maxresdefault.jpg'}}
-                style={{ 
-                  height: this.state.imageHeight,
-                  width: this.state.imageWidth, 
-                  borderTopLeftRadius: 10, 
-                  borderTopRightRadius: 10 
-              }}
-            />
-            <Text style={styles.title}>Title</Text>
-            <View style={styles.footer}>
-              <Text style={styles.price}>€ 120.00</Text>
-              <Text>Stars</Text>
-            </View>
-        </View>
+    <View style={styles.container}>
+    <TouchableOpacity onPress={() => console.log('tripAdvisorId', hotel.tripAdvisorId )} >
+      <Image
+        source={{uri: Config.host+hotel.pictures[0]}}
+        style={{ 
+          height: imageHeight,
+          width: imageWidth, 
+          borderTopLeftRadius: 10, 
+          borderTopRightRadius: 10 
+        }}
+      />
+      <Text style={styles.title}>{hotel.name}</Text>
+      <View style={styles.footer}>
+        <Text style={styles.price}>€ {hotel.price}</Text>
+        <Text>Stars</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
   );
-}
-}
-
-
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -57,7 +56,7 @@ const styles = StyleSheet.create({
     padding : 10,
   },
   title : {
-    fontSize : 30,  
+    fontSize : 20,  
     marginLeft : 5,
     marginRight : 5,    
   },
@@ -67,3 +66,5 @@ const styles = StyleSheet.create({
     marginRight : 5,    
   }
 });
+
+export default Card;

@@ -1,64 +1,90 @@
-import React from 'react';
-import { ActivityIndicator, Text } from 'react-native'
+import React, { useState , useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { NativeRouter, Route, Link } from "react-router-native";
 
-import Navbar from './components/core/navbar'
+import Hotels from './containers/Hotels'
+import City from './containers/City'
+import Login from './containers/Login'
 
-import API from './utils/API'
-
-import city_json from './utils/city.json'
-
-import Home from './components/Home'
-
-import Hotels from './components/Hotels'
-
-class App extends React.Component {
-      constructor(state) {
-            super(state)
-
-            this.state = {
-                  title: 'Trippy',
-                  activeTab: 'home',
-                  activeCard: '',
-                  cities: city_json,
-            }
-
-            this.hanledView = this.hanledView.bind(this)
-            this.resetView = this.resetView.bind(this)
-      }
-
-      componentDidMount() {
-            API.getCities().then(
-                console.log("componentDidMount#getCities")
-            );          
-      }
-
-      resetView() {
-            this.setState({
-                  activeTab: 'home',
-                  title: 'Trippy',
-            })
-      }
-      hanledView(val) {
-            this.setState({
-                  activeCard: val,
-                  title: 'Hotels '+val.toUpperCase(),
-                  activeTab: 'hotels',
-            })
-      }
-
-      render() {
-            return (
-                  <>
-                        <Navbar brand={this.state.title} reset={this.resetView} />
-                        {(
-                              this.state.activeTab === 'home' ? <Home cities={this.state.cities} hanled={this.hanledView} /> : null 
-                        )}
-                        {(
-                              this.state.activeTab === 'hotels' ? <Hotels hotels={this.state.cities} hanled={this.hanledView} /> : null
-                        )}
-                  </>
-            );
-      }
+function Topic({ match }) {
+  return <Text style={styles.topic}>{match.params.topicId}</Text>;
 }
+
+function Topics({ match }) {
+  return (
+    <View>
+      <Text style={styles.header}>Topics</Text>
+      <View>
+        <Link
+          to={`${match.url}/rendering`}
+          style={styles.subNavItem}
+          underlayColor="#f0f4f7"
+        >
+          <Text>Rendering with React</Text>
+        </Link>
+        <Link
+          to={`${match.url}/components`}
+          style={styles.subNavItem}
+          underlayColor="#f0f4f7"
+        >
+          <Text>Components</Text>
+        </Link>
+        <Link
+          to={`${match.url}/props-v-state`}
+          style={styles.subNavItem}
+          underlayColor="#f0f4f7"
+        >
+          <Text>Props v. State</Text>
+        </Link>
+      </View>
+
+      <Route path={`${match.url}/:topicId`} component={Topic} />
+      <Route
+        exact
+        path={match.url}
+        render={() => <Text style={styles.topic}>Please select a topic.</Text>}
+      />
+    </View>
+  );
+}
+
+function App() {
+  return (
+    <NativeRouter>      
+      <View style={styles.container}>        
+        <Route exact path="/" component={Login} />
+        <Route exact path="/hotels/" component={Hotels} />
+        <Route exact path="/hotels/:city" component={City} />
+        <Route path="/topics" component={Topics} />
+      </View>
+    </NativeRouter>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 0,
+    flex : 1,
+  },
+  header: {
+    fontSize: 20
+  },
+  nav: {
+    flexDirection: "row",
+    justifyContent: "space-around"
+  },
+  navItem: {
+    flex: 1,
+    alignItems: "center",
+    padding: 10
+  },
+  subNavItem: {
+    padding: 5
+  },
+  topic: {
+    textAlign: "center",
+    fontSize: 15
+  }
+});
 
 export default App;

@@ -1,55 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
     View, 
     StyleSheet,
     Dimensions, 
     Image, 
     Text, 
-    TouchableOpacity  
+    TouchableOpacity
 } from 'react-native'
 
 import theme from '../theme'
 
 import Config from './../../Config'
 
-export default class Card extends React.Component{
+const Card = ({ city, action }) => {
 
-  constructor(state){
-    super(state)
-
-    const dimensions = Dimensions.get('window');
-    this.state = {
-      imageHeight : Math.round(dimensions.width * 9 / 16),
-      imageWidth : dimensions.width - 34,
-    };
-  }
-
-  componentDidMount(){
-    //console.log( this.props.city)
-  }
-
-  render(){
+  const dimensions = Dimensions.get('window');
+  const [imageWidth,setImageWidth] = useState( dimensions.width - 34 );
+  const [imageHeight,setImageHeight] = useState( Math.round(dimensions.width * 9 / 16) );
 
   return (
-        <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.props.action(this.props.city.slug)}>
-                <Image
-                    source={{uri:'https://cultura.biografieonline.it/wp-content/uploads/2014/07/Anime-Dragon-Ball.jpg'}}
-                    style={{ 
-                        height: this.state.imageHeight,
-                        width: this.state.imageWidth, 
-                        borderTopLeftRadius: 10, 
-                        borderTopRightRadius: 10 
-                    }}
-                />
-                <Text style={styles.title}>{this.props.city.name}</Text>
-            </TouchableOpacity>
-        </View>
+    <View style={styles.container}>
+        <TouchableOpacity onPress={()=>action(city.slug)} >
+            <Image
+                source={{uri:Config.host + city.source}}
+                style={{ 
+                    height: imageHeight,
+                    width: imageWidth, 
+                    borderTopLeftRadius: 10, 
+                    borderTopRightRadius: 10 
+                }}
+            />
+            <Text style={styles.title}>{city.name}</Text>
+        </TouchableOpacity>
+    </View>
   );
-}
-}
-
-
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -68,3 +53,5 @@ const styles = StyleSheet.create({
     textAlign : "center" 
   }
 });
+
+export default Card;
